@@ -1,6 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import BaseIcon from '../ui/BaseIcon.vue'
+import { ref, computed } from 'vue'
+import { 
+  IconExpand, 
+  IconHistory, 
+  IconSparkles, 
+  IconClose,
+  IconBulb,
+  IconChevronUp,
+  IconChevronDown,
+  IconMicrophone,
+  IconShortcuts,
+  IconAttachment,
+  IconSend
+} from '../icons'
 
 defineProps<{
   isOpen: boolean
@@ -11,11 +23,22 @@ const emit = defineEmits<{
 }>()
 
 const inputMessage = ref('')
+const showSuggestions = ref(true)
+
+const hasInput = computed(() => inputMessage.value.trim().length > 0)
 
 const suggestedPrompts = [
   'What is a Charitable Remainder Unitrust (CRUT)?',
   'Is a Charitable Remainder Unitrust (CRUT) the correct fit for my investement strategy?',
 ]
+
+function handleSend() {
+  if (hasInput.value) {
+    // TODO: Handle send message
+    console.log('Sending:', inputMessage.value)
+    inputMessage.value = ''
+  }
+}
 </script>
 
 <template>
@@ -24,29 +47,43 @@ const suggestedPrompts = [
       <!-- Header -->
       <div class="ai-panel__header">
         <div class="ai-panel__header-left">
-          <BaseIcon name="sparkles" :size="18" class="ai-panel__header-icon" />
+          <button class="ai-panel__icon-btn">
+            <IconExpand :size="24" />
+          </button>
+          <button class="ai-panel__icon-btn">
+            <IconHistory :size="20" />
+          </button>
+        </div>
+        <div class="ai-panel__header-center">
+          <IconSparkles :size="20" class="ai-panel__sparkles" />
           <span class="ai-panel__header-title">Ask AI</span>
         </div>
-        <button class="ai-panel__close" @click="emit('close')">
-          <BaseIcon name="close" :size="20" />
-        </button>
+        <div class="ai-panel__header-right">
+          <button class="ai-panel__icon-btn" @click="emit('close')">
+            <IconClose :size="20" />
+          </button>
+        </div>
       </div>
 
-      <!-- Content -->
+      <!-- Message Container -->
       <div class="ai-panel__content">
-        <!-- Welcome Section -->
         <div class="ai-panel__welcome">
           <div class="ai-panel__avatar">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <svg width="79" height="79" viewBox="0 0 79 79" fill="none">
               <defs>
-                <linearGradient id="avatarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id="avatarGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" style="stop-color:#818CF8" />
                   <stop offset="50%" style="stop-color:#C084FC" />
                   <stop offset="100%" style="stop-color:#F472B6" />
                 </linearGradient>
+                <linearGradient id="avatarGradient2" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#60A5FA" />
+                  <stop offset="100%" style="stop-color:#A78BFA" />
+                </linearGradient>
               </defs>
-              <rect x="4" y="12" width="28" height="28" rx="6" fill="url(#avatarGradient)" />
-              <rect x="16" y="8" width="28" height="28" rx="6" fill="url(#avatarGradient)" opacity="0.6" />
+              <rect x="8" y="24" width="36" height="36" rx="8" fill="url(#avatarGradient1)" />
+              <rect x="28" y="16" width="36" height="36" rx="8" fill="url(#avatarGradient2)" opacity="0.7" />
+              <rect x="18" y="8" width="24" height="24" rx="6" fill="url(#avatarGradient1)" opacity="0.5" />
             </svg>
           </div>
           <h2 class="ai-panel__welcome-title">Hi There!</h2>
@@ -54,67 +91,70 @@ const suggestedPrompts = [
             I'm Sage - an AI assistant designed to help you turn your assets into income. Feel free to ask me anything!
           </p>
         </div>
+      </div>
 
+      <!-- Bottom Section -->
+      <div class="ai-panel__bottom">
         <!-- Suggested Prompts -->
         <div class="ai-panel__prompts">
           <div class="ai-panel__prompts-header">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 18h6" />
-              <path d="M10 22h4" />
-              <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14" />
-            </svg>
-            <span>Suggested Prompts</span>
-          </div>
-          <div class="ai-panel__prompts-list">
-            <button
-              v-for="(prompt, index) in suggestedPrompts"
-              :key="index"
-              class="ai-panel__prompt-btn"
-              @click="inputMessage = prompt"
-            >
-              {{ prompt }}
+            <div class="ai-panel__prompts-title">
+              <IconBulb :size="20" class="ai-panel__prompts-icon" />
+              <span>Suggested Prompts</span>
+            </div>
+            <button class="ai-panel__icon-btn" @click="showSuggestions = !showSuggestions">
+              <IconChevronUp :size="24" :class="{ 'ai-panel__chevron--collapsed': !showSuggestions }" />
             </button>
           </div>
+          <div v-if="showSuggestions" class="ai-panel__prompts-list">
+            <template v-for="(prompt, index) in suggestedPrompts" :key="index">
+              <button class="ai-panel__prompt-item" @click="inputMessage = prompt">
+                {{ prompt }}
+              </button>
+              <div class="ai-panel__prompt-divider" />
+            </template>
+          </div>
         </div>
-      </div>
 
-      <!-- Input Section -->
-      <div class="ai-panel__input-section">
-        <div class="ai-panel__input-wrapper">
-          <input
-            v-model="inputMessage"
-            type="text"
-            placeholder="Ask me anything..."
-            class="ai-panel__input"
-          />
-          <button class="ai-panel__mic-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-              <line x1="12" y1="19" x2="12" y2="23" />
-              <line x1="8" y1="23" x2="16" y2="23" />
-            </svg>
-          </button>
-        </div>
-        <div class="ai-panel__input-actions">
-          <button class="ai-panel__action-btn ai-panel__action-btn--primary">
-            Generate Reply
-            <BaseIcon name="chevron-down" :size="14" />
-          </button>
-          <div class="ai-panel__action-right">
-            <button class="ai-panel__action-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <line x1="9" y1="3" x2="9" y2="21" />
-              </svg>
-              Shortcuts
+        <!-- Message Bar -->
+        <div class="ai-panel__message-bar">
+          <div class="ai-panel__textarea-wrapper">
+            <textarea
+              v-model="inputMessage"
+              placeholder="Ask me anything..."
+              class="ai-panel__textarea"
+              rows="4"
+              @keydown.enter.ctrl="handleSend"
+            />
+            <div class="ai-panel__input-buttons">
+              <button class="ai-panel__mic-btn">
+                <IconMicrophone :size="24" />
+              </button>
+              <button 
+                v-if="hasInput" 
+                class="ai-panel__send-btn" 
+                @click="handleSend"
+              >
+                <IconSend :size="20" />
+              </button>
+            </div>
+          </div>
+          <div class="ai-panel__actions">
+            <button class="ai-panel__action-btn ai-panel__action-btn--left">
+              <span>{{ hasInput ? 'Generate Reply' : 'Suggested questions' }}</span>
+              <IconChevronDown v-if="hasInput" :size="24" />
+              <IconChevronUp v-else :size="24" class="ai-panel__chevron-rotated" />
             </button>
-            <button class="ai-panel__action-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-              </svg>
-              Attach
-            </button>
+            <div class="ai-panel__actions-right">
+              <button class="ai-panel__action-btn">
+                <IconShortcuts :size="24" />
+                <span>Shortcuts</span>
+              </button>
+              <button class="ai-panel__action-btn">
+                <IconAttachment :size="24" />
+                <span>Attach</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -124,168 +164,249 @@ const suggestedPrompts = [
 
 <style scoped>
 .ai-panel {
-  width: 380px;
-  min-width: 380px;
-  height: 100%;
+  width: 459px;
+  min-width: 459px;
+  height: 100vh;
   background: var(--surface-card-bg);
-  border-left: 1px solid var(--outline-button-neutral);
+  border-left: 1px solid #f0f0f0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
+/* Header */
 .ai-panel__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--outline-button-neutral);
+  height: 80px;
+  padding: 12px 24px;
+  background: white;
+  border-bottom: 1px solid #f0f0f0;
+  border-right: 1px solid #f0f0f0;
   flex-shrink: 0;
 }
 
 .ai-panel__header-left {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  white-space: nowrap;
+  gap: 8px;
 }
 
-.ai-panel__header-icon {
-  color: var(--color-primary-600);
+.ai-panel__header-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.ai-panel__header-title {
-  font-size: 0.9375rem;
-  font-weight: 600;
+.ai-panel__sparkles {
   color: var(--text-primary);
 }
 
-.ai-panel__close {
+.ai-panel__header-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #212121;
+}
+
+.ai-panel__header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 56px;
+}
+
+.ai-panel__icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   background: none;
   border: none;
-  color: var(--color-neutral-400);
-  padding: 0.25rem;
+  color: var(--text-secondary);
+  padding: 2px;
   cursor: pointer;
   border-radius: 4px;
 }
 
-.ai-panel__close:hover {
-  color: var(--text-secondary);
+.ai-panel__icon-btn:hover {
+  color: var(--text-primary);
   background: var(--surface-card-item-bg);
 }
 
+/* Content / Message Container */
 .ai-panel__content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px;
+  background: var(--surface-card-bg);
   overflow-y: auto;
-  overflow-x: hidden;
-  padding: 2rem 1.25rem;
-  min-width: 350px;
 }
 
 .ai-panel__welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
   text-align: center;
-  margin-bottom: 2rem;
 }
 
 .ai-panel__avatar {
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 4px;
+  transform: scaleY(-1) rotate(180deg);
 }
 
 .ai-panel__welcome-title {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 20px;
   color: var(--text-primary);
-  margin: 0 0 0.5rem;
+  margin: 0;
 }
 
 .ai-panel__welcome-text {
-  font-size: 0.875rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
   color: var(--text-secondary);
-  line-height: 1.6;
   margin: 0;
-  max-width: 280px;
-  margin: 0 auto;
+  text-align: center;
+  min-width: 100%;
 }
 
+/* Bottom Section */
+.ai-panel__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 24px 20px;
+  background: white;
+  flex-shrink: 0;
+}
+
+/* Suggested Prompts */
 .ai-panel__prompts {
-  background: var(--surface-message-chat-bg);
-  border-radius: 12px;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .ai-panel__prompts-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--color-neutral-700);
-  margin-bottom: 0.75rem;
+  justify-content: space-between;
 }
 
-.ai-panel__prompts-header svg {
-  color: var(--color-neutral-400);
+.ai-panel__prompts-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ai-panel__prompts-icon {
+  color: var(--text-primary);
+}
+
+.ai-panel__prompts-title span {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--text-primary);
 }
 
 .ai-panel__prompts-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
-.ai-panel__prompt-btn {
-  background: var(--surface-card-bg);
-  border: 1px solid var(--outline-button-neutral);
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-size: 0.8125rem;
-  color: var(--color-neutral-700);
+.ai-panel__prompt-item {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  padding: 0;
   text-align: left;
   cursor: pointer;
-  transition: all 0.15s ease;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
-.ai-panel__prompt-btn:hover {
+.ai-panel__prompt-item:hover {
+  color: var(--text-primary);
+}
+
+.ai-panel__prompt-divider {
+  height: 1px;
+  width: 100%;
+  background: var(--outline-button-neutral);
+}
+
+.ai-panel__chevron--collapsed {
+  transform: rotate(180deg);
+}
+
+/* Message Bar */
+.ai-panel__message-bar {
+  display: flex;
+  flex-direction: column;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  height: 160px;
+}
+
+.ai-panel__textarea-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-panel__textarea {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 14px;
+  padding-right: 48px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-primary);
+  resize: none;
+  box-shadow: 0 1px 2px rgba(10, 13, 18, 0.05);
+  box-sizing: border-box;
+}
+
+.ai-panel__textarea::placeholder {
+  color: #6b7280;
+}
+
+.ai-panel__textarea:focus {
+  outline: none;
   border-color: var(--outline-button-focus);
-  background: var(--color-primary-50);
 }
 
-.ai-panel__input-section {
-  padding: 1rem 1.25rem;
-  border-top: 1px solid var(--outline-button-neutral);
-  background: var(--surface-card-bg);
-  flex-shrink: 0;
-}
-
-.ai-panel__input-wrapper {
+.ai-panel__input-buttons {
+  position: absolute;
+  top: 7px;
+  right: 7px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background: var(--surface-input-subtext-bg);
-  border: 1px solid var(--outline-button-neutral);
-  border-radius: 10px;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.75rem;
-}
-
-.ai-panel__input {
-  flex: 1;
-  min-width: 0;
-  background: transparent;
-  border: none;
-  font-size: 0.875rem;
-  color: var(--text-primary);
-  outline: none;
-}
-
-.ai-panel__input::placeholder {
-  color: var(--color-neutral-400);
+  gap: 4px;
 }
 
 .ai-panel__mic-btn {
@@ -294,54 +415,76 @@ const suggestedPrompts = [
   justify-content: center;
   background: none;
   border: none;
-  color: var(--color-neutral-400);
+  color: #6b7280;
+  padding: 6px;
+  border-radius: 6px;
   cursor: pointer;
-  padding: 0.25rem;
 }
 
 .ai-panel__mic-btn:hover {
   color: var(--color-primary-600);
+  background: rgba(0, 0, 0, 0.05);
 }
 
-.ai-panel__input-actions {
+.ai-panel__send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-600);
+  border: none;
+  color: white;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ai-panel__send-btn:hover {
+  background: var(--color-primary-700);
+}
+
+/* Actions */
+.ai-panel__actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  white-space: nowrap;
+  padding: 8px 12px;
 }
 
 .ai-panel__action-btn {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
+  gap: 2px;
   background: none;
   border: none;
-  font-size: 0.8125rem;
-  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  color: #535862;
   cursor: pointer;
-  padding: 0.375rem 0.5rem;
-  border-radius: 6px;
-  white-space: nowrap;
+  padding: 0;
 }
 
 .ai-panel__action-btn:hover {
-  background: var(--surface-card-item-bg);
-  color: var(--color-neutral-700);
+  color: var(--text-primary);
 }
 
-.ai-panel__action-btn--primary {
-  color: var(--color-primary-600);
-  font-weight: 500;
+.ai-panel__action-btn--left {
+  gap: 2px;
 }
 
-.ai-panel__action-btn--primary:hover {
-  background: var(--color-primary-50);
+.ai-panel__chevron-rotated {
+  transform: rotate(180deg);
 }
 
-.ai-panel__action-right {
+.ai-panel__actions-right {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 12px;
+}
+
+.ai-panel__actions-right .ai-panel__action-btn {
+  gap: 4px;
 }
 
 /* Transitions */

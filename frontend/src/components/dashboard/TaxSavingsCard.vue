@@ -227,8 +227,7 @@ const chartOptions = {
 .tax-savings-card__divider {
   height: 1px;
   background: var(--outline-button-neutral);
-  margin: 0 -24px;
-  width: calc(100% + 48px);
+  width: 100%;
 }
 
 .tax-savings-card__chart {

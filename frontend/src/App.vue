@@ -12,18 +12,16 @@ const appStore = useAppStore()
     <TheSidebar />
     <div class="app-layout__main">
       <TheHeader :breadcrumb="['Dashboard', 'Home']" />
-      <div class="app-layout__body">
-        <main class="app-layout__content">
-          <router-view />
-        </main>
-        
-        <!-- AI Chat Panel (Side Pane) -->
-        <AiChatPanel 
-          :is-open="appStore.isAiPanelOpen" 
-          @close="appStore.closeAiPanel" 
-        />
-      </div>
+      <main class="app-layout__content">
+        <router-view />
+      </main>
     </div>
+    
+    <!-- AI Chat Panel (Side Pane) -->
+    <AiChatPanel 
+      :is-open="appStore.isAiPanelOpen" 
+      @close="appStore.closeAiPanel" 
+    />
   </div>
 </template>
 
@@ -38,12 +36,6 @@ const appStore = useAppStore()
   display: flex;
   flex-direction: column;
   min-width: 0;
-}
-
-.app-layout__body {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
 }
 
 .app-layout__content {

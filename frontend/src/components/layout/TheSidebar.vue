@@ -1,11 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import BaseIcon from '../ui/BaseIcon.vue'
+import { ref, type Component } from 'vue'
+import {
+  IconDashboard,
+  IconDocuments,
+  IconSolarActivities,
+  IconPlanning,
+  IconProjects,
+  IconDollar,
+  IconSettings,
+  IconSupport,
+  IconClose,
+  IconArrowUp
+} from '../icons'
 
 interface NavItem {
   id: string
   label: string
-  icon: string
+  icon: Component
   route?: string
 }
 
@@ -13,20 +24,20 @@ const activeItem = ref('dashboard')
 const showPromo = ref(true)
 
 const coreWorkflowItems: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: 'dashboard', route: '/' },
-  { id: 'documents', label: 'Documents', icon: 'documents', route: '/documents' },
-  { id: 'solar-activities', label: 'Solar Activities', icon: 'solar', route: '/solar-activities' },
+  { id: 'dashboard', label: 'Dashboard', icon: IconDashboard, route: '/' },
+  { id: 'documents', label: 'Documents', icon: IconDocuments, route: '/documents' },
+  { id: 'solar-activities', label: 'Solar Activities', icon: IconSolarActivities, route: '/solar-activities' },
 ]
 
 const planningItems: NavItem[] = [
-  { id: 'guided-planning', label: 'Guided Planning', icon: 'planning', route: '/guided-planning' },
-  { id: 'solar-projects', label: 'Solar Projects', icon: 'projects', route: '/solar-projects' },
-  { id: 'tax-calculators', label: 'Tax Saving Calculators', icon: 'calculator', route: '/tax-calculators' },
+  { id: 'guided-planning', label: 'Guided Planning', icon: IconPlanning, route: '/guided-planning' },
+  { id: 'solar-projects', label: 'Solar Projects', icon: IconProjects, route: '/solar-projects' },
+  { id: 'tax-calculators', label: 'Tax Saving Calculators', icon: IconDollar, route: '/tax-calculators' },
 ]
 
 const bottomItems: NavItem[] = [
-  { id: 'settings', label: 'Settings', icon: 'settings', route: '/settings' },
-  { id: 'support', label: 'Support', icon: 'support', route: '/support' },
+  { id: 'settings', label: 'Settings', icon: IconSettings, route: '/settings' },
+  { id: 'support', label: 'Support', icon: IconSupport, route: '/support' },
 ]
 
 function setActive(id: string) {
@@ -60,7 +71,7 @@ function closePromo() {
               :class="['sidebar__menu-item', { 'sidebar__menu-item--active': activeItem === item.id }]"
               @click="setActive(item.id)"
             >
-              <BaseIcon :name="item.icon" :size="20" />
+              <component :is="item.icon" :size="20" />
               <span>{{ item.label }}</span>
             </router-link>
           </li>
@@ -77,7 +88,7 @@ function closePromo() {
               :class="['sidebar__menu-item', { 'sidebar__menu-item--active': activeItem === item.id }]"
               @click="setActive(item.id)"
             >
-              <BaseIcon :name="item.icon" :size="20" />
+              <component :is="item.icon" :size="20" />
               <span>{{ item.label }}</span>
             </router-link>
           </li>
@@ -91,7 +102,7 @@ function closePromo() {
     <!-- Promo Card -->
     <div v-if="showPromo" class="sidebar__promo">
       <button class="sidebar__promo-close" @click="closePromo" aria-label="Close">
-        <BaseIcon name="close" :size="12" />
+        <IconClose :size="12" />
       </button>
       <h4 class="sidebar__promo-title">Reserve your 2026 energy projects</h4>
       <p class="sidebar__promo-text">
@@ -110,7 +121,7 @@ function closePromo() {
           :class="['sidebar__menu-item', { 'sidebar__menu-item--active': activeItem === item.id }]"
           @click="setActive(item.id)"
         >
-          <BaseIcon :name="item.icon" :size="20" />
+          <component :is="item.icon" :size="20" />
           <span>{{ item.label }}</span>
         </router-link>
       </li>
@@ -126,7 +137,7 @@ function closePromo() {
         <span class="sidebar__user-email">scottmctominay@gmail.com</span>
       </div>
       <button class="sidebar__user-toggle">
-        <BaseIcon name="chevron-up" :size="20" />
+        <IconArrowUp :size="20" />
       </button>
     </div>
   </aside>

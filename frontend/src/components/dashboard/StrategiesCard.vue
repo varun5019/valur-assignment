@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import BaseIcon from '../ui/BaseIcon.vue'
-import BaseButton from '../ui/BaseButton.vue'
+import { IconSparkles, IconArrowDown, IconThreeDot, IconArrowUp } from '../icons'
 
 interface Strategy {
   id: string
@@ -31,38 +30,42 @@ const strategies: Strategy[] = [
 <template>
   <div class="strategies-card">
     <div class="strategies-card__header">
-      <h3 class="strategies-card__title">Your Strategies</h3>
+      <div class="strategies-card__header-info">
+        <span class="strategies-card__subtitle">Your Strategies</span>
+        <h3 class="strategies-card__title">2 Strategies</h3>
+      </div>
       <div class="strategies-card__actions">
         <button class="strategies-card__dropdown">
           Last 6 months
-          <BaseIcon name="chevron-down" :size="16" />
+          <IconArrowDown :size="16" />
         </button>
         <button class="strategies-card__more">
-          <BaseIcon name="more" :size="18" />
+          <IconThreeDot :size="18" />
         </button>
       </div>
     </div>
 
-    <div class="strategies-card__count">2 Strategies</div>
+    <div class="strategies-card__divider"></div>
 
-    <!-- AI Recommendation -->
-    <div class="strategies-card__ai-rec">
-      <div class="strategies-card__ai-rec-content">
-        <div class="strategies-card__ai-rec-icon">
-          <BaseIcon name="sparkles" :size="16" />
-        </div>
-        <div class="strategies-card__ai-rec-text">
-          <span class="strategies-card__ai-rec-title">AI Recommendation - Charitable Remainder Trust</span>
-          <span class="strategies-card__ai-rec-desc">CRUT reduces taxes while supporting your charity.</span>
-        </div>
-      </div>
-      <BaseButton variant="outline" size="sm" class="strategies-card__ai-rec-btn">
-        Check Viability
-      </BaseButton>
-    </div>
-
-    <!-- Strategy List -->
+    <!-- Card Container -->
     <div class="strategies-card__list">
+      <!-- AI Recommendation -->
+      <div class="strategies-card__ai-rec">
+        <div class="strategies-card__ai-rec-content">
+          <div class="strategies-card__ai-rec-icon">
+            <IconSparkles :size="20" />
+          </div>
+          <div class="strategies-card__ai-rec-text">
+            <span class="strategies-card__ai-rec-title">AI Recommendation - Charitable Remainder Trust</span>
+            <span class="strategies-card__ai-rec-desc">CRUT reduces taxes while supporting your charity.</span>
+          </div>
+        </div>
+        <button class="strategies-card__ai-rec-btn">
+          Check Viability
+        </button>
+      </div>
+
+      <!-- Strategy Items -->
       <div
         v-for="strategy in strategies"
         :key="strategy.id"
@@ -75,7 +78,9 @@ const strategies: Strategy[] = [
         <div class="strategies-card__item-value">
           <span class="strategies-card__item-amount">{{ strategy.amount }}</span>
           <span class="strategies-card__item-change">
-            <BaseIcon name="trending-up" :size="12" />
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 2L10 6H7V10H5V6H2L6 2Z" fill="#22C55E"/>
+            </svg>
             {{ strategy.change }}
           </span>
         </div>
@@ -87,44 +92,57 @@ const strategies: Strategy[] = [
 <style scoped>
 .strategies-card {
   background: var(--surface-card-bg);
-  border-radius: 12px;
+  border-radius: 20px;
   border: 1px solid var(--outline-button-neutral);
-  padding: 1.5rem;
+  padding: 24px;
   height: 100%;
   display: flex;
   flex-direction: column;
+  gap: 24px;
 }
 
 .strategies-card__header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 0.25rem;
+}
+
+.strategies-card__header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.strategies-card__subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-secondary);
 }
 
 .strategies-card__title {
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--text-secondary);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .strategies-card__actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .strategies-card__dropdown {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  background: none;
+  gap: 4px;
+  background: var(--surface-button-secondary-bg);
   border: 1px solid var(--outline-button-neutral);
-  border-radius: 6px;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.8125rem;
-  color: var(--color-neutral-700);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
   cursor: pointer;
   font-family: inherit;
 }
@@ -137,122 +155,127 @@ const strategies: Strategy[] = [
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: none;
-  color: var(--color-neutral-400);
+  background: var(--surface-button-secondary-bg);
+  border: 1px solid var(--outline-button-neutral);
+  border-radius: 8px;
+  padding: 8px;
+  color: var(--text-primary);
   cursor: pointer;
-  padding: 0.25rem;
 }
 
 .strategies-card__more:hover {
-  color: var(--text-secondary);
+  background: var(--color-neutral-50);
 }
 
-.strategies-card__count {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 1.25rem;
+.strategies-card__divider {
+  height: 1px;
+  background: var(--outline-button-neutral);
+  width: 100%;
 }
 
 .strategies-card__ai-rec {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
-  background: var(--surface-card-item-ai);
-  border: 1px solid var(--color-primary-300);
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  gap: 12px;
+  background: linear-gradient(95.38deg, rgb(252, 238, 253) 1.86%, rgb(216, 223, 251) 100.47%);
+  border-radius: 12px;
+  padding: 12px;
 }
 
 .strategies-card__ai-rec-content {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  flex: 1;
-  min-width: 0;
+  gap: 4px;
 }
 
 .strategies-card__ai-rec-icon {
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-700) 100%);
-  border-radius: 6px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-inverted);
   flex-shrink: 0;
+  color: var(--color-primary-600);
 }
 
 .strategies-card__ai-rec-text {
   display: flex;
   flex-direction: column;
-  gap: 0.125rem;
-  min-width: 0;
+  gap: 4px;
 }
 
 .strategies-card__ai-rec-title {
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
 .strategies-card__ai-rec-desc {
-  font-size: 0.75rem;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
   color: var(--text-secondary);
 }
 
 .strategies-card__ai-rec-btn {
   flex-shrink: 0;
-  background: var(--surface-card-bg);
+  background: var(--surface-button-primary-bg);
+  border: 1px solid var(--outline-button-focus);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-inverted);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.strategies-card__ai-rec-btn:hover {
+  opacity: 0.9;
 }
 
 .strategies-card__list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 12px;
 }
 
 .strategies-card__item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 12px;
   background: var(--surface-card-item-bg);
-  border-radius: 10px;
-  gap: 1rem;
+  border-radius: 12px;
 }
 
 .strategies-card__item-info {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  min-width: 0;
+  gap: 4px;
 }
 
 .strategies-card__item-date {
-  font-size: 0.75rem;
-  color: var(--color-neutral-400);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-secondary);
 }
 
 .strategies-card__item-title {
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
 .strategies-card__item-value {
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
-  gap: 0.25rem;
+  gap: 4px;
 }
 
 .strategies-card__item-amount {
-  font-size: 1.125rem;
+  font-size: 22px;
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -260,9 +283,10 @@ const strategies: Strategy[] = [
 .strategies-card__item-change {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 500;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 400;
   color: var(--text-success);
+  padding: 1px 0;
 }
 </style>
