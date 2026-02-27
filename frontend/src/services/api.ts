@@ -33,8 +33,33 @@ apiClient.interceptors.response.use(
 
 export default apiClient
 
+// Types
+export interface TableData {
+  headers: string[]
+  rows: {
+    label: string
+    values: string[]
+    highlight?: boolean
+  }[]
+}
+
+export interface AiChatResponse {
+  response: string
+  messageType?: string
+  title?: string
+  subtitle?: string
+  actions?: string[]
+  tableData?: TableData
+  howItWorks?: string[]
+  howToSetup?: string
+  savings?: string
+}
+
 // API functions
 export const api = {
   // Health check
   healthCheck: () => apiClient.get('/health/'),
+  
+  // AI Chat
+  aiChat: (message: string) => apiClient.post<AiChatResponse>('/ai/chat/', { message }),
 }

@@ -12,6 +12,7 @@ import {
   IconClose,
   IconArrowUp
 } from '../icons'
+import logoImage from '../../assets/Logo.png'
 
 interface NavItem {
   id: string
@@ -53,10 +54,7 @@ function closePromo() {
   <aside class="sidebar">
     <!-- Logo -->
     <div class="sidebar__logo">
-      <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 0L24 25H0L12 0Z" fill="#3D5BD9"/>
-      </svg>
-      <span class="sidebar__logo-text">VALUR</span>
+      <img :src="logoImage" alt="Valur" class="sidebar__logo-img" />
     </div>
 
     <!-- Navigation -->
@@ -163,12 +161,9 @@ function closePromo() {
   margin-bottom: 32px;
 }
 
-.sidebar__logo-text {
-  font-family: var(--font-family);
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: 0.05em;
+.sidebar__logo-img {
+  height: 24px;
+  width: auto;
 }
 
 .sidebar__nav {
