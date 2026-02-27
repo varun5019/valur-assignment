@@ -145,11 +145,11 @@ function getFirstDayOfMonth(year: number, month: number): number {
   return day === 0 ? 6 : day - 1 // Convert to Monday-based (0 = Monday)
 }
 
-function getCalendarDays(): (number | null)[] {
+function getCalendarDays(): number[] {
   const daysInMonth = getDaysInMonth(calendarState.currentYear, calendarState.currentMonth)
   const firstDay = getFirstDayOfMonth(calendarState.currentYear, calendarState.currentMonth)
   
-  const days: (number | null)[] = []
+  const days: number[] = []
   
   // Previous month days
   const prevMonth = calendarState.currentMonth === 0 ? 11 : calendarState.currentMonth - 1
@@ -274,16 +274,18 @@ function scrollToBottom() {
 async function streamText(messageIndex: number, fullText: string) {
   const words = fullText.split(' ')
   let currentText = ''
+  const message = messages.value[messageIndex]
+  if (!message) return
   
   for (let i = 0; i < words.length; i++) {
     currentText += (i === 0 ? '' : ' ') + words[i]
-    messages.value[messageIndex].displayedContent = currentText
+    message.displayedContent = currentText
     scrollToBottom()
     // Random delay between 20-60ms for natural feel
     await new Promise(resolve => setTimeout(resolve, 20 + Math.random() * 40))
   }
   
-  messages.value[messageIndex].isStreaming = false
+  message.isStreaming = false
 }
 
 // Send message to AI
@@ -735,7 +737,7 @@ watch(() => props.isOpen, (isOpen) => {
                 </div>
                 <div v-if="message.actions && message.actions.length" class="ai-panel__message-actions">
                   <button 
-                    v-for="(action, idx) in message.actions" 
+                    v-for="action in message.actions" 
                     :key="action"
                     :class="['ai-panel__action-button', { 'ai-panel__action-button--highlighted': isSetupCallAction(action) }]"
                     @click="handleActionClick(action)"

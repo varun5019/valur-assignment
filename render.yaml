@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: valur-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn config.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "false"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: CORS_ALLOW_ALL
+        value: "true"
+      - key: PYTHON_VERSION
+        value: "3.12.0"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconSparkles, IconArrowDown, IconThreeDot, IconArrowUp } from '../icons'
+import { IconSparkles, IconArrowDown, IconThreeDot } from '../icons'
 
 interface Strategy {
   id: string
