@@ -147,6 +147,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',  # Vue.js dev server
     'http://127.0.0.1:5173',
     'https://frontend-snowy-one-15.vercel.app',
+    'https://new-production-8c80.up.railway.app',
 ]
 
 # Allow all origins in production (can be restricted later)
