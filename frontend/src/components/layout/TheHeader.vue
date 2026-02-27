@@ -68,8 +68,8 @@ withDefaults(defineProps<Props>(), {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
-  background: white;
-  border-bottom: 1px solid #E5E7EB;
+  background: var(--surface-topbar-bg);
+  border-bottom: 1px solid var(--outline-button-neutral);
 }
 
 .header__left {
@@ -82,15 +82,15 @@ withDefaults(defineProps<Props>(), {
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #6B7280;
+  color: var(--text-secondary);
 }
 
 .header__breadcrumb-separator {
-  color: #D1D5DB;
+  color: var(--color-neutral-300);
 }
 
 .header__breadcrumb-current {
-  color: #111827;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -104,8 +104,8 @@ withDefaults(defineProps<Props>(), {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #F9FAFB;
-  border: 1px solid #E5E7EB;
+  background: var(--color-neutral-50);
+  border: 1px solid var(--outline-button-neutral);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   min-width: 180px;
@@ -113,27 +113,27 @@ withDefaults(defineProps<Props>(), {
 }
 
 .header__search:hover {
-  border-color: #D1D5DB;
+  border-color: var(--color-neutral-300);
 }
 
 .header__search-icon {
-  color: #9CA3AF;
+  color: var(--color-neutral-400);
   flex-shrink: 0;
 }
 
 .header__search-text {
   flex: 1;
   font-size: 0.875rem;
-  color: #9CA3AF;
+  color: var(--color-neutral-400);
 }
 
 .header__search-shortcut {
-  background: white;
-  border: 1px solid #E5E7EB;
+  background: var(--surface-card-bg);
+  border: 1px solid var(--outline-button-neutral);
   border-radius: 4px;
   padding: 0.125rem 0.375rem;
   font-size: 0.75rem;
-  color: #6B7280;
+  color: var(--text-secondary);
   font-family: inherit;
 }
 
@@ -143,22 +143,22 @@ withDefaults(defineProps<Props>(), {
   justify-content: center;
   background: none;
   border: none;
-  color: #9CA3AF;
+  color: var(--color-neutral-400);
   padding: 0.5rem;
   border-radius: 6px;
   cursor: pointer;
 }
 
 .header__icon-btn:hover {
-  background: #F3F4F6;
-  color: #6B7280;
+  background: var(--surface-card-item-bg);
+  color: var(--text-secondary);
 }
 
 .header__ai-btn {
-  background: #F3F4F6;
+  background: var(--surface-card-item-bg);
 }
 
 .header__ai-btn:deep(svg) {
-  color: #7C3AED;
+  color: var(--color-primary-600);
 }
 </style>

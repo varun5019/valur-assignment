@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -31,15 +31,24 @@ const chartData = computed(() => ({
   datasets: [
     {
       data: [2000, 3500, 5000, 4200, 4800, 5200, 5500],
-      borderColor: '#7C3AED',
-      backgroundColor: 'rgba(124, 58, 237, 0.1)',
+      borderColor: '#3D6ED8',
+      backgroundColor: (context: any) => {
+        const chart = context.chart
+        const { ctx, chartArea } = chart
+        if (!chartArea) return 'rgba(61, 110, 216, 0.1)'
+        const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom)
+        gradient.addColorStop(0, 'rgba(61, 110, 216, 0.2)')
+        gradient.addColorStop(1, 'rgba(61, 110, 216, 0.02)')
+        return gradient
+      },
       fill: true,
       tension: 0.4,
-      pointRadius: months.map(m => m === selectedMonth.value ? 6 : 0),
-      pointBackgroundColor: '#7C3AED',
+      borderWidth: 2,
+      pointRadius: months.map(m => m === selectedMonth.value ? 8 : 0),
+      pointBackgroundColor: '#3D6ED8',
       pointBorderColor: 'white',
-      pointBorderWidth: 2,
-      pointHoverRadius: 6,
+      pointBorderWidth: 3,
+      pointHoverRadius: 8,
     },
   ],
 }))
@@ -52,38 +61,15 @@ const chartOptions = {
       display: false,
     },
     tooltip: {
-      enabled: true,
-      backgroundColor: '#1F2937',
-      titleColor: 'white',
-      bodyColor: 'white',
-      padding: 12,
-      cornerRadius: 8,
-      displayColors: false,
-      callbacks: {
-        label: (context: any) => `$${context.raw.toLocaleString()}`,
-      },
+      enabled: false,
     },
   },
   scales: {
     x: {
-      grid: {
-        display: false,
-      },
-      border: {
-        display: false,
-      },
-      ticks: {
-        color: '#9CA3AF',
-        font: {
-          size: 12,
-        },
-      },
+      display: false,
     },
     y: {
       display: false,
-      grid: {
-        display: false,
-      },
     },
   },
   interaction: {
@@ -96,188 +82,203 @@ const chartOptions = {
 <template>
   <div class="tax-savings-card">
     <div class="tax-savings-card__header">
-      <h3 class="tax-savings-card__title">Tax Savings</h3>
+      <div class="tax-savings-card__info">
+        <span class="tax-savings-card__label">Tax Savings</span>
+        <div class="tax-savings-card__value">
+          <span class="tax-savings-card__amount">$11,756</span>
+          <div class="tax-savings-card__change">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M6 2L10 6H7V10H5V6H2L6 2Z" fill="#22C55E"/>
+            </svg>
+            <span>12.75%</span>
+          </div>
+        </div>
+      </div>
       <div class="tax-savings-card__actions">
         <button class="tax-savings-card__dropdown">
-          Last 6 months
-          <BaseIcon name="chevron-down" :size="16" />
+          <span>Last 6 months</span>
+          <BaseIcon name="chevron-down" :size="20" />
         </button>
         <button class="tax-savings-card__more">
-          <BaseIcon name="more" :size="18" />
+          <BaseIcon name="more" :size="20" />
         </button>
       </div>
     </div>
 
-    <div class="tax-savings-card__value">
-      <span class="tax-savings-card__amount">$11,756</span>
-      <span class="tax-savings-card__change">
-        <BaseIcon name="trending-up" :size="14" />
-        12.75%
-      </span>
-    </div>
+    <div class="tax-savings-card__divider"></div>
 
     <div class="tax-savings-card__chart">
       <div class="tax-savings-card__tooltip" v-if="selectedMonth === 'Mar'">
         <span class="tax-savings-card__tooltip-value">$5k</span>
+        <div class="tax-savings-card__tooltip-arrow"></div>
       </div>
       <Line :data="chartData" :options="chartOptions" />
     </div>
 
     <div class="tax-savings-card__months">
-      <button
+      <span
         v-for="month in months"
         :key="month"
-        :class="['tax-savings-card__month', { 'tax-savings-card__month--active': selectedMonth === month }]"
-        @click="selectedMonth = month"
+        class="tax-savings-card__month"
       >
         {{ month }}
-      </button>
+      </span>
     </div>
   </div>
 </template>
 
 <style scoped>
 .tax-savings-card {
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #E5E7EB;
-  padding: 1.5rem;
-  height: 100%;
+  background: var(--surface-card-bg);
+  border-radius: 20px;
+  border: 1px solid var(--outline-button-neutral);
+  padding: 24px;
   display: flex;
   flex-direction: column;
+  gap: 26px;
 }
 
 .tax-savings-card__header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
 }
 
-.tax-savings-card__title {
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: #6B7280;
-  margin: 0;
+.tax-savings-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tax-savings-card__label {
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.tax-savings-card__value {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.tax-savings-card__amount {
+  font-family: var(--font-family);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tax-savings-card__change {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 0;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-success);
 }
 
 .tax-savings-card__actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .tax-savings-card__dropdown {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  background: none;
-  border: 1px solid #E5E7EB;
-  border-radius: 6px;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.8125rem;
-  color: #374151;
+  gap: 4px;
+  background: var(--surface-button-secondary-bg);
+  border: 1px solid var(--outline-button-neutral);
+  border-radius: 8px;
+  padding: 8px;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
   cursor: pointer;
-  font-family: inherit;
+  transition: background 0.15s ease;
 }
 
 .tax-savings-card__dropdown:hover {
-  background: #F9FAFB;
+  background: var(--color-neutral-50);
 }
 
 .tax-savings-card__more {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: none;
-  color: #9CA3AF;
+  background: var(--surface-button-secondary-bg);
+  border: 1px solid var(--outline-button-neutral);
+  border-radius: 8px;
+  padding: 8px;
+  color: var(--text-primary);
   cursor: pointer;
-  padding: 0.25rem;
+  transition: background 0.15s ease;
 }
 
 .tax-savings-card__more:hover {
-  color: #6B7280;
+  background: var(--color-neutral-50);
 }
 
-.tax-savings-card__value {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.tax-savings-card__amount {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #111827;
-}
-
-.tax-savings-card__change {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #10B981;
+.tax-savings-card__divider {
+  height: 1px;
+  background: var(--outline-button-neutral);
+  margin: 0 -24px;
+  width: calc(100% + 48px);
 }
 
 .tax-savings-card__chart {
   position: relative;
-  flex: 1;
-  min-height: 180px;
-  margin-bottom: 1rem;
+  height: 170px;
 }
 
 .tax-savings-card__tooltip {
   position: absolute;
-  top: 20%;
-  left: 35%;
-  background: #1F2937;
-  color: white;
-  padding: 0.375rem 0.625rem;
-  border-radius: 6px;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  top: 60px;
+  left: 152px;
+  background: var(--surface-card-bg);
+  border: 1px solid var(--outline-button-neutral);
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 16px rgba(13, 10, 44, 0.12);
   z-index: 10;
 }
 
-.tax-savings-card__tooltip::after {
-  content: '';
+.tax-savings-card__tooltip-value {
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.tax-savings-card__tooltip-arrow {
   position: absolute;
-  bottom: -4px;
+  bottom: -6px;
   left: 50%;
   transform: translateX(-50%);
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #1F2937;
+  width: 10px;
+  height: 10px;
+  background: var(--surface-card-bg);
+  border-right: 1px solid var(--outline-button-neutral);
+  border-bottom: 1px solid var(--outline-button-neutral);
+  transform: translateX(-50%) rotate(45deg);
 }
 
 .tax-savings-card__months {
   display: flex;
   justify-content: space-between;
-  gap: 0.25rem;
+  align-items: center;
 }
 
 .tax-savings-card__month {
-  flex: 1;
-  background: none;
-  border: none;
-  padding: 0.5rem 0.25rem;
-  font-size: 0.8125rem;
-  color: #9CA3AF;
-  cursor: pointer;
-  border-radius: 6px;
-  font-family: inherit;
-  transition: all 0.15s ease;
-}
-
-.tax-savings-card__month:hover {
-  color: #6B7280;
-}
-
-.tax-savings-card__month--active {
-  background: #1F2937;
-  color: white;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-align: center;
 }
 </style>

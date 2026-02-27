@@ -22,7 +22,7 @@ const userName = 'Scott'
 <style scoped>
 .dashboard {
   padding: 2rem;
-  background: #F9FAFB;
+  background: var(--surface-page-bg);
   min-height: calc(100vh - 65px);
 }
 
@@ -33,13 +33,13 @@ const userName = 'Scott'
 .dashboard__title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-primary);
   margin: 0 0 0.25rem;
 }
 
 .dashboard__subtitle {
   font-size: 0.9375rem;
-  color: #6B7280;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -62,5 +62,4 @@ const userName = 'Scott'
     min-height: auto;
   }
 }
-</style>
 </style>

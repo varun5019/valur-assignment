@@ -86,9 +86,9 @@ const strategies: Strategy[] = [
 
 <style scoped>
 .strategies-card {
-  background: white;
+  background: var(--surface-card-bg);
   border-radius: 12px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--outline-button-neutral);
   padding: 1.5rem;
   height: 100%;
   display: flex;
@@ -105,7 +105,7 @@ const strategies: Strategy[] = [
 .strategies-card__title {
   font-size: 0.9375rem;
   font-weight: 500;
-  color: #6B7280;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -120,17 +120,17 @@ const strategies: Strategy[] = [
   align-items: center;
   gap: 0.375rem;
   background: none;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--outline-button-neutral);
   border-radius: 6px;
   padding: 0.375rem 0.75rem;
   font-size: 0.8125rem;
-  color: #374151;
+  color: var(--color-neutral-700);
   cursor: pointer;
   font-family: inherit;
 }
 
 .strategies-card__dropdown:hover {
-  background: #F9FAFB;
+  background: var(--color-neutral-50);
 }
 
 .strategies-card__more {
@@ -139,19 +139,19 @@ const strategies: Strategy[] = [
   justify-content: center;
   background: none;
   border: none;
-  color: #9CA3AF;
+  color: var(--color-neutral-400);
   cursor: pointer;
   padding: 0.25rem;
 }
 
 .strategies-card__more:hover {
-  color: #6B7280;
+  color: var(--text-secondary);
 }
 
 .strategies-card__count {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-primary);
   margin-bottom: 1.25rem;
 }
 
@@ -160,8 +160,8 @@ const strategies: Strategy[] = [
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  background: linear-gradient(135deg, #FEFCE8 0%, #FEF3C7 50%, #FDE68A 100%);
-  border: 1px solid #FDE68A;
+  background: var(--surface-card-item-ai);
+  border: 1px solid var(--color-primary-300);
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -178,12 +178,12 @@ const strategies: Strategy[] = [
 .strategies-card__ai-rec-icon {
   width: 28px;
   height: 28px;
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-700) 100%);
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--text-inverted);
   flex-shrink: 0;
 }
 
@@ -197,17 +197,17 @@ const strategies: Strategy[] = [
 .strategies-card__ai-rec-title {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .strategies-card__ai-rec-desc {
   font-size: 0.75rem;
-  color: #6B7280;
+  color: var(--text-secondary);
 }
 
 .strategies-card__ai-rec-btn {
   flex-shrink: 0;
-  background: white;
+  background: var(--surface-card-bg);
 }
 
 .strategies-card__list {
@@ -221,7 +221,7 @@ const strategies: Strategy[] = [
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  background: #F9FAFB;
+  background: var(--surface-card-item-bg);
   border-radius: 10px;
   gap: 1rem;
 }
@@ -235,13 +235,13 @@ const strategies: Strategy[] = [
 
 .strategies-card__item-date {
   font-size: 0.75rem;
-  color: #9CA3AF;
+  color: var(--color-neutral-400);
 }
 
 .strategies-card__item-title {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .strategies-card__item-value {
@@ -254,7 +254,7 @@ const strategies: Strategy[] = [
 .strategies-card__item-amount {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .strategies-card__item-change {
@@ -263,6 +263,6 @@ const strategies: Strategy[] = [
   gap: 0.25rem;
   font-size: 0.75rem;
   font-weight: 500;
-  color: #10B981;
+  color: var(--text-success);
 }
 </style>

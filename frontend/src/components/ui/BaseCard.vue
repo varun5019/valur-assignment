@@ -16,9 +16,9 @@ withDefaults(defineProps<Props>(), {
 
 <style scoped>
 .card {
-  background: white;
+  background: var(--surface-card-bg);
   border-radius: 12px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--outline-button-neutral);
 }
 
 .card--padding-none {

@@ -27,7 +27,7 @@ withDefaults(defineProps<Props>(), {
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-family: inherit;
+  font-family: var(--font-family);
 }
 
 .btn--sm {
@@ -46,40 +46,50 @@ withDefaults(defineProps<Props>(), {
 }
 
 .btn--primary {
-  background: #7C3AED;
-  color: white;
+  background: var(--surface-button-primary-bg);
+  color: var(--text-inverted);
 }
 
 .btn--primary:hover {
-  background: #6D28D9;
+  background: var(--color-primary-600);
+}
+
+.btn--primary:focus {
+  outline: 2px solid var(--outline-button-focus);
+  outline-offset: 2px;
 }
 
 .btn--secondary {
-  background: #F3F4F6;
-  color: #374151;
+  background: var(--surface-card-item-bg);
+  color: var(--color-neutral-700);
 }
 
 .btn--secondary:hover {
-  background: #E5E7EB;
+  background: var(--color-neutral-200);
 }
 
 .btn--ghost {
   background: transparent;
-  color: #374151;
+  color: var(--color-neutral-700);
 }
 
 .btn--ghost:hover {
-  background: #F3F4F6;
+  background: var(--surface-card-item-bg);
 }
 
 .btn--outline {
-  background: white;
-  color: #374151;
-  border: 1px solid #E5E7EB;
+  background: var(--surface-button-secondary-bg);
+  color: var(--color-neutral-700);
+  border: 1px solid var(--outline-button-neutral);
 }
 
 .btn--outline:hover {
-  background: #F9FAFB;
-  border-color: #D1D5DB;
+  background: var(--color-neutral-50);
+  border-color: var(--color-neutral-300);
+}
+
+.btn--outline:focus {
+  outline: 2px solid var(--outline-button-focus);
+  outline-offset: 2px;
 }
 </style>

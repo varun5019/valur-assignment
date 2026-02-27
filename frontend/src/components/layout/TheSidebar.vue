@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import BaseIcon from '../ui/BaseIcon.vue'
-import BaseButton from '../ui/BaseButton.vue'
 
 interface NavItem {
   id: string
@@ -33,14 +32,18 @@ const bottomItems: NavItem[] = [
 function setActive(id: string) {
   activeItem.value = id
 }
+
+function closePromo() {
+  showPromo.value = false
+}
 </script>
 
 <template>
   <aside class="sidebar">
     <!-- Logo -->
     <div class="sidebar__logo">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2L2 22h20L12 2z" fill="#7C3AED" />
+      <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 0L24 25H0L12 0Z" fill="#3D5BD9"/>
       </svg>
       <span class="sidebar__logo-text">VALUR</span>
     </div>
@@ -87,16 +90,16 @@ function setActive(id: string) {
 
     <!-- Promo Card -->
     <div v-if="showPromo" class="sidebar__promo">
-      <button class="sidebar__promo-close" @click="showPromo = false">
-        <BaseIcon name="close" :size="16" />
+      <button class="sidebar__promo-close" @click="closePromo" aria-label="Close">
+        <BaseIcon name="close" :size="12" />
       </button>
       <h4 class="sidebar__promo-title">Reserve your 2026 energy projects</h4>
       <p class="sidebar__promo-text">
         By submitting, you'll claim your spot in the queue, and we'll be in touch shortly to discuss next steps.
       </p>
-      <BaseButton variant="primary" size="md" class="sidebar__promo-btn">
+      <button class="sidebar__promo-btn">
         Claim Your Spot
-      </BaseButton>
+      </button>
     </div>
 
     <!-- Bottom Menu -->
@@ -123,7 +126,7 @@ function setActive(id: string) {
         <span class="sidebar__user-email">scottmctominay@gmail.com</span>
       </div>
       <button class="sidebar__user-toggle">
-        <BaseIcon name="chevron-up" :size="16" />
+        <BaseIcon name="chevron-up" :size="20" />
       </button>
     </div>
   </aside>
@@ -131,83 +134,103 @@ function setActive(id: string) {
 
 <style scoped>
 .sidebar {
-  width: 260px;
-  min-width: 260px;
+  width: 296px;
+  min-width: 296px;
   height: 100vh;
-  background: white;
-  border-right: 1px solid #E5E7EB;
+  background: var(--surface-sidebar-bg);
+  border-right: 1px solid var(--outline-sidebar-item);
   display: flex;
   flex-direction: column;
-  padding: 1.25rem 0.75rem;
+  padding: 24px;
   overflow-y: auto;
 }
 
 .sidebar__logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: 8px;
+  margin-bottom: 32px;
 }
 
 .sidebar__logo-text {
-  font-size: 1.25rem;
+  font-family: var(--font-family);
+  font-size: 20px;
   font-weight: 700;
-  color: #111827;
-  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
 }
 
 .sidebar__nav {
   flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .sidebar__section {
-  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .sidebar__section-title {
-  display: block;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  color: #9CA3AF;
-  letter-spacing: 0.05em;
-  padding: 0 0.75rem;
-  margin-bottom: 0.5rem;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--icon-sidebar-inactive);
+  letter-spacing: 0;
 }
 
 .sidebar__menu {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .sidebar__menu-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.625rem 0.75rem;
+  gap: 8px;
+  padding: 8px 12px;
   border-radius: 8px;
-  color: #6B7280;
+  color: var(--text-primary);
   text-decoration: none;
-  font-size: 0.875rem;
+  font-family: var(--font-family);
+  font-size: 16px;
   font-weight: 500;
+  background: var(--surface-sidebar-item);
   transition: all 0.15s ease;
   cursor: pointer;
 }
 
+.sidebar__menu-item svg {
+  color: var(--icon-sidebar-inactive);
+  transition: color 0.15s ease;
+}
+
 .sidebar__menu-item:hover {
-  background: #F3F4F6;
-  color: #374151;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar__menu-item:hover svg {
+  color: var(--icon-sidebar-active);
 }
 
 .sidebar__menu-item--active {
-  background: #F3F0FF;
-  color: #7C3AED;
+  background: var(--surface-sidebar-item-active);
+  border: 1px solid var(--outline-sidebar-item);
+  color: var(--text-primary);
+}
+
+.sidebar__menu-item--active svg {
+  color: var(--icon-sidebar-active);
 }
 
 .sidebar__menu-item--active:hover {
-  background: #F3F0FF;
-  color: #7C3AED;
+  background: var(--surface-sidebar-item-active);
 }
 
 .sidebar__spacer {
@@ -216,113 +239,142 @@ function setActive(id: string) {
 
 .sidebar__promo {
   position: relative;
-  background: #F9FAFB;
-  border: 1px solid #E5E7EB;
+  background: var(--surface-sidebar-card);
+  border: 1px solid var(--outline-sidebar-item);
   border-radius: 12px;
-  padding: 1rem;
-  margin: 0 0.25rem 1rem;
+  padding: 12px;
+  margin-bottom: 4px;
 }
 
 .sidebar__promo-close {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  top: 8px;
+  right: 8px;
   background: none;
   border: none;
-  color: #9CA3AF;
+  color: var(--text-secondary);
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 0;
 }
 
 .sidebar__promo-close:hover {
-  color: #6B7280;
+  color: var(--color-neutral-700);
 }
 
 .sidebar__promo-title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #111827;
-  margin: 0 0 0.5rem;
-  padding-right: 1.5rem;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+  padding-right: 20px;
+  line-height: 1.4;
 }
 
 .sidebar__promo-text {
-  font-size: 0.75rem;
-  color: #6B7280;
-  line-height: 1.5;
-  margin: 0 0 1rem;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0 0 12px;
 }
 
 .sidebar__promo-btn {
   width: 100%;
+  background: linear-gradient(90deg, #785fe0 0%, #3d6ed8 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-inverted);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.sidebar__promo-btn:hover {
+  opacity: 0.9;
 }
 
 .sidebar__menu--bottom {
-  margin-bottom: 1rem;
+  margin-bottom: 4px;
 }
 
 .sidebar__user {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  border-radius: 8px;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--surface-sidebar-card);
+  border: 1px solid var(--outline-sidebar-item);
+  border-radius: 12px;
   cursor: pointer;
   transition: background 0.15s ease;
 }
 
 .sidebar__user:hover {
-  background: #F3F4F6;
+  background: var(--color-neutral-50);
 }
 
 .sidebar__user-avatar {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: #7C3AED;
-  color: white;
+  background: linear-gradient(90deg, #785fe0 0%, #3d6ed8 100%);
+  color: var(--text-inverted);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
 }
 
 .sidebar__user-info {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar__user-name {
-  display: block;
-  font-size: 0.875rem;
+  font-family: var(--font-family);
+  font-size: 16px;
   font-weight: 500;
-  color: #111827;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 .sidebar__user-email {
-  display: block;
-  font-size: 0.75rem;
-  color: #6B7280;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 .sidebar__user-toggle {
   background: none;
   border: none;
-  color: #9CA3AF;
+  color: var(--text-primary);
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 </style>

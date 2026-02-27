@@ -127,8 +127,8 @@ const suggestedPrompts = [
   width: 380px;
   min-width: 380px;
   height: 100%;
-  background: white;
-  border-left: 1px solid #E5E7EB;
+  background: var(--surface-card-bg);
+  border-left: 1px solid var(--outline-button-neutral);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -139,7 +139,7 @@ const suggestedPrompts = [
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid #E5E7EB;
+  border-bottom: 1px solid var(--outline-button-neutral);
   flex-shrink: 0;
 }
 
@@ -151,13 +151,13 @@ const suggestedPrompts = [
 }
 
 .ai-panel__header-icon {
-  color: #7C3AED;
+  color: var(--color-primary-600);
 }
 
 .ai-panel__header-title {
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .ai-panel__close {
@@ -166,15 +166,15 @@ const suggestedPrompts = [
   justify-content: center;
   background: none;
   border: none;
-  color: #9CA3AF;
+  color: var(--color-neutral-400);
   padding: 0.25rem;
   cursor: pointer;
   border-radius: 4px;
 }
 
 .ai-panel__close:hover {
-  color: #6B7280;
-  background: #F3F4F6;
+  color: var(--text-secondary);
+  background: var(--surface-card-item-bg);
 }
 
 .ai-panel__content {
@@ -199,13 +199,13 @@ const suggestedPrompts = [
 .ai-panel__welcome-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-primary);
   margin: 0 0 0.5rem;
 }
 
 .ai-panel__welcome-text {
   font-size: 0.875rem;
-  color: #6B7280;
+  color: var(--text-secondary);
   line-height: 1.6;
   margin: 0;
   max-width: 280px;
@@ -213,7 +213,7 @@ const suggestedPrompts = [
 }
 
 .ai-panel__prompts {
-  background: #F9FAFB;
+  background: var(--surface-message-chat-bg);
   border-radius: 12px;
   padding: 1rem;
 }
@@ -224,12 +224,12 @@ const suggestedPrompts = [
   gap: 0.5rem;
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-neutral-700);
   margin-bottom: 0.75rem;
 }
 
 .ai-panel__prompts-header svg {
-  color: #9CA3AF;
+  color: var(--color-neutral-400);
 }
 
 .ai-panel__prompts-list {
@@ -239,12 +239,12 @@ const suggestedPrompts = [
 }
 
 .ai-panel__prompt-btn {
-  background: white;
-  border: 1px solid #E5E7EB;
+  background: var(--surface-card-bg);
+  border: 1px solid var(--outline-button-neutral);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   font-size: 0.8125rem;
-  color: #374151;
+  color: var(--color-neutral-700);
   text-align: left;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -252,14 +252,14 @@ const suggestedPrompts = [
 }
 
 .ai-panel__prompt-btn:hover {
-  border-color: #7C3AED;
-  background: #FAFAFF;
+  border-color: var(--outline-button-focus);
+  background: var(--color-primary-50);
 }
 
 .ai-panel__input-section {
   padding: 1rem 1.25rem;
-  border-top: 1px solid #E5E7EB;
-  background: white;
+  border-top: 1px solid var(--outline-button-neutral);
+  background: var(--surface-card-bg);
   flex-shrink: 0;
 }
 
@@ -267,8 +267,8 @@ const suggestedPrompts = [
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #F9FAFB;
-  border: 1px solid #E5E7EB;
+  background: var(--surface-input-subtext-bg);
+  border: 1px solid var(--outline-button-neutral);
   border-radius: 10px;
   padding: 0.75rem 1rem;
   margin-bottom: 0.75rem;
@@ -280,12 +280,12 @@ const suggestedPrompts = [
   background: transparent;
   border: none;
   font-size: 0.875rem;
-  color: #111827;
+  color: var(--text-primary);
   outline: none;
 }
 
 .ai-panel__input::placeholder {
-  color: #9CA3AF;
+  color: var(--color-neutral-400);
 }
 
 .ai-panel__mic-btn {
@@ -294,13 +294,13 @@ const suggestedPrompts = [
   justify-content: center;
   background: none;
   border: none;
-  color: #9CA3AF;
+  color: var(--color-neutral-400);
   cursor: pointer;
   padding: 0.25rem;
 }
 
 .ai-panel__mic-btn:hover {
-  color: #7C3AED;
+  color: var(--color-primary-600);
 }
 
 .ai-panel__input-actions {
@@ -317,7 +317,7 @@ const suggestedPrompts = [
   background: none;
   border: none;
   font-size: 0.8125rem;
-  color: #6B7280;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 0.375rem 0.5rem;
   border-radius: 6px;
@@ -325,17 +325,17 @@ const suggestedPrompts = [
 }
 
 .ai-panel__action-btn:hover {
-  background: #F3F4F6;
-  color: #374151;
+  background: var(--surface-card-item-bg);
+  color: var(--color-neutral-700);
 }
 
 .ai-panel__action-btn--primary {
-  color: #7C3AED;
+  color: var(--color-primary-600);
   font-weight: 500;
 }
 
 .ai-panel__action-btn--primary:hover {
-  background: #F3F0FF;
+  background: var(--color-primary-50);
 }
 
 .ai-panel__action-right {
